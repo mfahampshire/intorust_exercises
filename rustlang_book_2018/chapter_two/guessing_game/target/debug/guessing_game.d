@@ -1,0 +1,1 @@
+/home/mx/Dev/rust/rust_notes_and_exercises/rustlang_book_2018/chapter_two/guessing_game/target/debug/guessing_game: /home/mx/Dev/rust/rust_notes_and_exercises/rustlang_book_2018/chapter_two/guessing_game/src/main.rs

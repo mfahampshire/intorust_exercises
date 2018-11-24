@@ -1,0 +1,37 @@
+# Programming a Guessing Game
+- learn about `let` & `match` methods / associated functions / external crates.
+
+- program generates random int 1 - 100 / play enters guess / program indicates whether guess was too low or high or returns congratulatory message and exits
+
+## Setting up new project
+- make new project with cargo
+
+- all code goes in `/guessing_game/src/main.rs`
+
+- quickly check results with `cargo run`
+
+- the rust prelude is "the list of things that Rust automatically imports into every Rust program. It's kept as small as possible, and is focused on things, particularly traits, which are used in almost every single Rust program." https://doc.rust-lang.org/std/prelude/index.html
+
+## Associated functions / prelude / Result type
+- `::` in `String::new()` denotes that `new` is an associated function of the type `String`. Implemented on the type not a particular instance of a string buffer (sometimes referred to as a *static method*)
+
+- you can bring libraries into program scope in-line as well as at the beginning of the program using something like `std::io::stdin()` instead of merely `io.stdin()`.
+
+- `Result` type: results can be of generic type or specific one for submodules like `io`. Result types are enumerations (enums): type that has fixed set of values (each value = a *variant* of the enum). Variants of `result` are `Ok` and `Err`. `Ok` contains the successfully generated value. `Err` contains info on how / why operation failed.
+
+Various methods can be called on the value of the returned `Result` type. `.expect` displays the text provided as an argument if the operation has failed & causes the program to crash, or just passes the value that `Ok` contains.
+
+## Using crates: additional functionality
+- Using the `rand` crate for random number generation
+
+- Crates are *library crates* - rust code for other programs. The project we are building is a *binary crate* - an executable.
+
+- Add library crates to the `Cargo.toml` file underneath `[dependencies]`. Cargo uses Semantic Versioning (SemVer) for version specifiers. On `run` or `build` it fetches the specified version from the *registry* (the data from Crates.io).
+
+- Future builds will refer to the versions specified in the `Cargo.lock` file: thus ensuring reproducible code / builds.
+
+- updating crates via `cargo update` ignores `Cargo.lock` specifications.
+
+- we can call anything in an external dependency crate by placing `::` before it in the program.
+
+- `cargo doc --open` will build documentation of included dependencies locally. 

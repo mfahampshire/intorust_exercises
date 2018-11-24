@@ -1,0 +1,31 @@
+## macros vs functions
+`println()` is a function
+`println!()` is a macro.
+`!` denotes macro instead of function.
+
+## cargo
+- Rust build system & package manager. Handles stuff like building code abd downloading and building libraries.
+
+- creating project with cargo:
+`cargo new hello_cargo` creates a new directory named 'hello_cargo'. Creates a `Cargo.toml` file and an `src` directory containing `main.rs`.
+
+- TOML config format = Tom's Obvious, Minimal Language config format
+
+- source files should be in the `src` directory.
+
+- build with `cargo build`
+
+- run executable in created `target` directory with `./target/debug/hello_cargo`
+
+- `cargo build` also creates a top-level `Cargo.lock` file which "keeps track of the exact versions of dependencies in your project"
+
+- can also just use `cargo run` which combines the above two steps.
+
+- `cargo check` builds your code (compiles) but doesn't create an executable. This is the fastest option if you're just wanting to check that everything compiles.
+
+- `cargo build --release` compiles with optimizations. Creates an executable in `target/release` instead of `target/debug`.
+
+- "you can use the following commands to check out the code using Git, change to that project's directory, and build"
+`git clone someurl.com/someproject`
+`cd someproject`
+`cargo build`
