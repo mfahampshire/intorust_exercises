@@ -1,1 +1,1 @@
-commented completed code exercises & compiled machine code from exercises found at http://intorust.com/
+commented completed code exercises & compiled machine code from exercises found at http://intorust.com/ & notes + projects following the rust-lang book found at https://doc.rust-lang.org/book/2018-edition/
