@@ -13,9 +13,9 @@
 - the rust prelude is "the list of things that Rust automatically imports into every Rust program. It's kept as small as possible, and is focused on things, particularly traits, which are used in almost every single Rust program." https://doc.rust-lang.org/std/prelude/index.html
 
 ## Associated functions / prelude / Result type
-- `::` in `String::new()` denotes that `new` is an associated function of the type `String`. Implemented on the type not a particular instance of a string buffer (sometimes referred to as a *static method*)
+- `::` in `String::new()` denotes that `new` is an associated function of the type `String`. Implemented on the type not a particular instance of (in this e.g.) a string buffer (sometimes referred to as a *static method*)
 
-- you can bring libraries into program scope in-line as well as at the beginning of the program using something like `std::io::stdin()` instead of merely `io.stdin()`.
+- you can bring libraries into program scope in-line as well as at the beginning of the program using something like `std::io::stdin()` instead of merely `io::stdin()`.
 
 - `Result` type: results can be of generic type or specific one for submodules like `io`. Result types are enumerations (enums): type that has fixed set of values (each value = a *variant* of the enum). Variants of `result` are `Ok` and `Err`. `Ok` contains the successfully generated value. `Err` contains info on how / why operation failed.
 
@@ -34,4 +34,12 @@ Various methods can be called on the value of the returned `Result` type. `.expe
 
 - we can call anything in an external dependency crate by placing `::` before it in the program.
 
-- `cargo doc --open` will build documentation of included dependencies locally. 
+- `cargo doc --open` will build documentation of included dependencies locally.
+
+## Match expressions
+- `Match` expressions have arms. Arms are *patterns* plus the code to be run if the value provided to the `Match` fits the arm's pattern.
+
+## Types
+- Strong static type system.
+
+- ints default to `i32` unless otherwise specified.
