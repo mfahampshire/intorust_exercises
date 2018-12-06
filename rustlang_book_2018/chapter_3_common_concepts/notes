@@ -1,0 +1,191 @@
+# Common concepts
+
+## Variables and Mutability
+- vars are immutable by default for safety
+- `mut` keyword on variable definition (buffer allocation) makes them mutable
+
+## Variables vs Constants
+- Variables immutable by default but can be made mutable
+- Constants always immutable
+- when declaring must always annotate the value type:
+`const MAX_POINTS: u32 = 100_000;`
+- naming convention is as above: all uppercase snake case.
+- *"constants may be set only to a constant expression, not the result of a function call or any other value that could only be computed at runtime"*
+- Constants are valid for the entire program runtime within their scope thus make good choice for global variables.
+
+## Shadowing
+- Declaring a new var with the same name as an already existing var means that the new var *shadows* the previous var: the new var's value is bound to the var's name.
+- One difference between shadowing and mutability is that via using `let` you are "effectively creating a new variable": we can transform the value of a var at a key point but then have this value be immutable throughout the rest of the program if we wish.
+- The most effective difference is that we can use shadowing to change a variable's datatype, something not possibile with mutability, again because we're effectively declaring a new var:
+
+`let spaces = "   ";
+let spaces = spaces.len();`
+^^ this is fine due to shadowing rules.
+
+`let mut spaces = "   ";
+spaces = spaces.len();`
+^^ this throws a compiler error as we're trying to mutate a variable TYPE not value - this is not allowed.
+
+## Data Types
+- Rust is statically typed - all var types must be known at compile time
+- Mostly types can be inferred by the compiler but sometimes (e.g. with type coversion via shadowing) type annotation is used e.g.:
+
+`let guess: u32 = "42".parse().expect("Not a number!");`
+
+### Scalar Types
+Represent single value, four primary:
+  - integers
+  - floating points
+  - Booleans
+  - characters
+
+#### Integer Types
+- Number without a fraction.
+- Default to `i32`
+- Either unsigned or signed:
+
+Length | Signed | Unsigned
+--------------------------
+8-bit	 | i8	    | u8
+16-bit | i16	  | u16
+32-bit | i32	  | u32
+64-bit | i64	  | u64
+128-bit| i128	  | u128
+arch	 | isize	| usize
+
+"Each signed variant can store numbers from -(2n - 1) to 2n - 1 - 1 inclusive, where n is the number of bits that variant uses. So an i8 can store numbers from -(27) to 27 - 1, which equals -128 to 127. Unsigned variants can store numbers from 0 to 2n - 1, so a u8 can store numbers from 0 to 28 - 1, which equals 0 to 255."
+
+`isize` and `usize` depend on sys architecture.
+
+- Integer literals:
+
+Number literals	| Example
+--------------------------
+Decimal	        | 98_222
+Hex	            | 0xff
+Octal	          | 0o77
+Binary	        | 0b1111_0000
+Byte (u8 only)	| b'A'
+
+"You can write integer literals in any of the forms shown in Table 3-2. Note that all number literals except the byte literal allow a type suffix, such as 57u8, and _ as a visual separator, such as 1_000."
+
+- Re: integer overflows:
+Compiling in debug mode causes panic.
+Compiling in release mode leads to wraparounds (254, 255, 0, 1, etc).
+Standard library has `Wrapping` type for wraparound.
+
+#### Floating Points
+- `f32` (32 bits) & `f64` (64 bits), latter is 'double precision'
+
+#### Booleans
+- specified with `bool`
+- one byte in size
+
+#### Characters
+- `char` literal is single quotes (string literal is double)
+- not just ASCII: "Accented letters; Chinese, Japanese, and Korean characters; emoji; and zero-width spaces are all valid char values in Rust"
+
+### Compound Types
+Types which group multiple values into one type. Two subtypes:
+- tuples
+- arrays
+
+#### Tuples
+- Grouping variety of types into compound type
+- Fixed length once declared.
+- Declaring tuples:
+`fn main() {
+    let tup: (i32, f64, u8) = (500, 6.4, 1); // with type annotation
+}`
+^^ `tup` binds to the *entire tuple*.
+
+- Pattern matching used to destructure and get individual values:
+`fn main() {
+    let tup = (500, 6.4, 1);
+
+    let (x, y, z) = tup; // destructuring
+
+    println!("The value of y is: {}", y);
+}`
+
+- Direct tuple element access:
+`fn main() {
+    let x: (i32, f64, u8) = (500, 6.4, 1);
+
+    let five_hundred = x.0;
+
+    let six_point_four = x.1;
+
+    let one = x.2;
+}`
+
+#### Arrays
+- Every element must be same type
+- Fixed length
+- Declaring:
+`fn main() {
+    let a = [1, 2, 3, 4, 5];
+}`
+
+with type annotation:
+`let a: [i32; 5] = [1, 2, 3, 4, 5];` // [type; length]
+
+- Use vectors when in doubt as they're more flexible than arrays / not fixed length. Use arrays for fixed length collection. Allocated to stack not heap.
+
+- Accessing element via indexing:
+`fn main() {
+    let a = [1, 2, 3, 4, 5];
+
+    let first = a[0];
+    let second = a[1];
+}`
+
+- Invalid access attempts:
+`fn main() {
+    let a = [1, 2, 3, 4, 5];
+    let index = 10;
+
+    let element = a[index]; // index greater than array length
+
+    println!("The value of element is: {}", element);
+}`
+^^ this code *will compile*, but will cause a runtime error.
+
+## Functions
+- snake case convention for function and var names.
+- `fn` keyword
+
+### Function Parameters
+- Function signatures require type annotation with parameters.
+
+### Function Bodies
+- Rust is expression based.
+- Function bodies = series of statements optionally ending with an expression.
+
+#### Statements and expressions
+- "Statements are instructions that perform some action and do not return a value."
+e.g. `let y = 6;`
+-"Expressions evaluate to a resulting value" - function calls and macro calls are expressions.
+e.g. `{
+    let x = 3;
+    x + 1
+}`
+"Expressions do not include ending semicolons. If you add a semicolon to the end of an expression, you turn it into a statement, which will then not return a value."
+
+#### Functions with return values
+- dont name return values
+- body expression has no semicolon because we want to return it.
+
+## Control Flow
+- `if` expressions start w keyword and followed by condition
+- the arms - like match expressions - are the blocks of code associated with the conditions
+- with `else if` statements the program executes the first body for which the condition is true.
+- `let` values can be bound to the outcome of an `if` expression.
+- the values that could be the results of arms must be the same type.
+
+## Loops
+- three kinds: `loop` / `while` / `for`
+
+`loop`: Need to tell it to exit otherwise infinite, `break` expression.
+`while`: often used for condition evaluation.
+`for`: more concise and safe than using while loop if looping over (e.g.) an array

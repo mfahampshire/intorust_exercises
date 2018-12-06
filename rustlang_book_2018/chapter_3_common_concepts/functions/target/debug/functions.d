@@ -1,0 +1,1 @@
+/home/mx/Dev/rust/rust_notes_and_exercises/rustlang_book_2018/chapter_three/functions/target/debug/functions: /home/mx/Dev/rust/rust_notes_and_exercises/rustlang_book_2018/chapter_three/functions/src/main.rs
